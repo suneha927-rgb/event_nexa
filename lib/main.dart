@@ -3,76 +3,50 @@ import 'package:flutter/material.dart';
 void main(){
   runApp(MyApp());
 }
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool showPassword = true;
+  final passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Test'),
+          title: Text('BS IT'),
         ),
-        body: Row(
+        body: Column(
           children: [
-            Expanded(
-              flex: 1,
-              child: Column(
-                children:[
-                  Expanded(child: Container(
-                    color: Colors.red,
-                  ),),
-                  Expanded(
-                    flex: 3,
-                    child: Container(
-                    color: Colors.green,
-                  ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                    color: Colors.yellow,
-                  ),
-                  ),
-                  
-                ],
-              
+            TextField(
+              controller: passwordController,
+              obscureText: showPassword,
+              decoration: InputDecoration(
+                hintText: 'Password',
+                border: OutlineInputBorder(),
+                prefix: Icon(Icons.password),
+                suffixIcon: IconButton(
+                  onPressed: (){
+                    setState(() {
+                      showPassword = !showPassword;
+                    },
+                   );
+                  }, 
+                  icon: Icon(Icons.remove_red_eye),
+               ),
               ),
             ),
-            Expanded(
-              flex: 1,
-              child: Column(
-                children:[
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      color: Colors.blue,
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      color: Colors.black,
-                    ),
-                  ),
-                  Expanded(
-                    flex: ,
-                    child: Container(
-                      color: Colors.orange,
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      color: Colors.purple,
-                    ),
-                  ),
-                ],
-              
-              ),
-            ),
+            ElevatedButton(
+              onPressed: (){
+                print(passwordController.text);
+              }, 
+              child: Text('Login'),),
           ],
-        )
+        ),
       ),
     );
   }
