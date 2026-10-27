@@ -11,8 +11,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool showPassword = true;
-  final passwordController = TextEditingController();
+List<String> students = [
+  'abc', 'xyz', 'ijk', '123'
+];
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,21 +21,12 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: Text('BS IT'),
         ),
-        body: ListView(
-          children: [
-            ListTile(
-              leading: CircleAvatar(
-                child: Icon(Icons.person),
-              ),
-              title: Text('Ali'),
-              subtitle: Text('Hello'),
-              trailing: Icon(Icons.arrow_forward),
-            ),
-            ListTile(title: Text('Asad')),
-            ListTile(title: Text('Akbar')),
-            ListTile(title: Text('Ahmad')),
-          ],
-        ),
+        body: ListView.builder(
+          itemCount: students.length,
+          itemBuilder: (context, index)  {
+            return Text(students[index]);
+           },
+           ),
       ),
     );
   }
