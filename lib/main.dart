@@ -20,31 +20,19 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: Text('BS IT'),
         ),
-        body: Column(
+        body: ListView(
           children: [
-            TextField(
-              controller: passwordController,
-              obscureText: showPassword,
-              decoration: InputDecoration(
-                hintText: 'Password',
-                border: OutlineInputBorder(),
-                prefix: Icon(Icons.password),
-                suffixIcon: IconButton(
-                  onPressed: (){
-                    setState(() {
-                      showPassword = !showPassword;
-                    },
-                   );
-                  }, 
-                  icon: Icon(Icons.remove_red_eye),
-               ),
+            ListTile(
+              leading: CircleAvatar(
+                child: Icon(Icons.person),
               ),
+              title: Text('Ali'),
+              subtitle: Text('Hello'),
+              trailing: Icon(Icons.arrow_forward),
             ),
-            ElevatedButton(
-              onPressed: (){
-                print(passwordController.text);
-              }, 
-              child: Text('Login'),),
+            ListTile(title: Text('Asad')),
+            ListTile(title: Text('Akbar')),
+            ListTile(title: Text('Ahmad')),
           ],
         ),
       ),
