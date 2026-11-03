@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
   runApp(MyApp());
 }
 class MyApp extends StatefulWidget {
@@ -11,88 +15,44 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  bool showPassword = true;
-  int number = 0;
+  RxInt counter = 1.obs;
+  final box = GetStorage();
   @override
   void initState() {
     super.initState();
-    print('Hello to Flutter');
+    
+    counter.value = box.read('counter') ?? 0;
+    Test();
+  }
+  void Test(){
+    print('Suneha');
   }
   @override
-  void dispose() {
-    
-    super.dispose();
-  }
-  Widget build(BuildContext context){
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Login',
-             style: TextStyle(color: Colors.purple),
-          ),
-          backgroundColor: const Color.fromARGB(255, 68, 6, 2),
-          centerTitle: true,
+          title: Text('WhatsApp'),
+          backgroundColor: Colors.green,
         ),
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.blue,
-               Colors.purple],
-               ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
+        body: Obx(
+          () => Center(
             child: Column(
               children: [
-                TextField(
-                  controller: emailController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.email),
-                    hint: Text('Email'),
-                    filled: true,
-                    fillColor: Colors.white
-                  ),
-                ),
-                const SizedBox(height: 10,),
-                TextField(
-                  controller: passwordController,
-                  obscureText: showPassword,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    prefixIcon: const Icon(Icons.password),
-                    suffixIcon: IconButton(onPressed: (){
-                      setState(() {
-                        showPassword =! showPassword;
-                      });
-                    }, icon: const Icon(Icons.remove_red_eye)),
-                    hint: const Text("Password"),
-                    filled: true,
-                    fillColor: Colors.white,
-                  ),
-                ),
-                const SizedBox(height: 10,),
-                ElevatedButton(onPressed: (){
-                  print(emailController.text);
-                  print(passwordController.text);
-                }, child: const Text('Login'),
-                ),
-                Text('$number'),
-                ElevatedButton(onPressed: (){
-                  setState(() {
-                    number++;
-                  });
-                }, child: Text('Increament'),
-                ),
+                Text('Counter:${counter.value}'),
+                ElevatedButton(
+                  onPressed: (){
+                    counter.value--;
+                    box.write('counter', counter.value);
+                  }, child: Icon(Icons.remove)),
               ],
             ),
           ),
         ),
+        floatingActionButton: FloatingActionButton(onPressed: (){
+          box.write('counter', counter.value);
+          counter.value++;
+        }, child: Icon(Icons.add),),
       ),
     );
   }
