@@ -3,132 +3,94 @@ import 'package:flutter/material.dart';
 void main() {
   runApp(MyApp());
 }
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  bool showPassword = true;
+  int number = 0;
+  @override
+  void initState() {
+    super.initState();
+    print('Hello to Flutter');
+  }
+  @override
+  void dispose() {
+    
+    super.dispose();
+  }
   Widget build(BuildContext context){
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text("Hello User!",
-          style: TextStyle(
-            color: const Color.fromARGB(255, 1, 30, 54),
-            fontWeight: FontWeight.bold,
-            fontSize: 30,
+          title: const Text('Login',
+             style: TextStyle(color: Colors.purple),
           ),
-          ),
-          backgroundColor: Colors.grey,
+          backgroundColor: const Color.fromARGB(255, 68, 6, 2),
+          centerTitle: true,
         ),
         body: Container(
-          child: Column(
-            children: [
-              Text("Welcome To Your Dashboard",
-              style: TextStyle(
-                color: const Color.fromARGB(255, 1, 34, 61),
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
+          width: double.infinity,
+          height: double.infinity,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.blue,
+               Colors.purple],
+               ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                TextField(
+                  controller: emailController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.email),
+                    hint: Text('Email'),
+                    filled: true,
+                    fillColor: Colors.white
+                  ),
                 ),
-              ),
-              SizedBox(height: 40,),
-              Expanded(
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            height: 40,
-                            color: Colors.blue,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.person,
-                                color: Colors.white,
-                                size: 20,
-                                ),
-                                Text("Profile",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                                ),
-                              ],
-                            ),
-                           ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            height: 40,
-                            color: Colors.purple,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.book,
-                                color: Colors.white,
-                                size: 20,
-                                ),
-                                Text("Course",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                                ),
-                              ],
-                            ),
-                           ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            height: 40,
-                            color: Colors.green,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.event,
-                                color: Colors.white,
-                                size: 20,
-                                ),
-                                Text("Events",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                                ),
-                              ],
-                            ),
-                           ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            height: 40,
-                            color: Colors.orange,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.settings,
-                                color: Colors.white,
-                                size: 20,
-                                ),
-                                Text("Settings",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                                ),
-                                
-                              
-                              ],
-                            ),
-                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                const SizedBox(height: 10,),
+                TextField(
+                  controller: passwordController,
+                  obscureText: showPassword,
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    prefixIcon: const Icon(Icons.password),
+                    suffixIcon: IconButton(onPressed: (){
+                      setState(() {
+                        showPassword =! showPassword;
+                      });
+                    }, icon: const Icon(Icons.remove_red_eye)),
+                    hint: const Text("Password"),
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
                 ),
+                const SizedBox(height: 10,),
+                ElevatedButton(onPressed: (){
+                  print(emailController.text);
+                  print(passwordController.text);
+                }, child: const Text('Login'),
                 ),
-            ],
+                Text('$number'),
+                ElevatedButton(onPressed: (){
+                  setState(() {
+                    number++;
+                  });
+                }, child: Text('Increament'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
