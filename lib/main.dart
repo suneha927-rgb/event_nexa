@@ -17,18 +17,15 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   RxInt counter = 1.obs;
   final box = GetStorage();
-  @override
+
+ @override
   void initState() {
     super.initState();
-    
     counter.value = box.read('counter') ?? 0;
-    Test();
   }
-  void Test(){
-    print('Suneha');
-  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return GetMaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -42,17 +39,25 @@ class _MyAppState extends State<MyApp> {
                 Text('Counter:${counter.value}'),
                 ElevatedButton(
                   onPressed: (){
-                    counter.value--;
-                    box.write('counter', counter.value);
-                  }, child: Icon(Icons.remove)),
+                     setState(() {
+                       box.remove('counter.value');
+                       counter.value--;
+                     });
+                  }, child: Icon(Icons.remove),
+                ),
               ],
             ),
           ),
         ),
-        floatingActionButton: FloatingActionButton(onPressed: (){
-          box.write('counter', counter.value);
-          counter.value++;
-        }, child: Icon(Icons.add),),
+        floatingActionButton: FloatingActionButton(
+          onPressed: (){
+            setState(() {
+              box.write('counter', counter.value);
+              counter.value++;
+            });
+           },
+          child: Icon(Icons.add),
+        ),
       ),
     );
   }
