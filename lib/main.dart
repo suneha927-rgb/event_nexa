@@ -1,6 +1,8 @@
+import 'package:evet_nexa/app_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:evet_nexa/login.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,36 +29,38 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context){
     return GetMaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('WhatsApp'),
-          backgroundColor: Colors.green,
-        ),
-        body: Obx(
-          () => Center(
-            child: Column(
-              children: [
-                Text('Counter:${counter.value}'),
-                ElevatedButton(
-                  onPressed: (){
-                     setState(() {
-                       box.remove('counter.value');
-                       counter.value--;
-                     });
-                  }, child: Icon(Icons.remove),
-                ),
-              ],
+      debugShowCheckedModeBanner: false,
+      initialRoute: AppRoute.login,
+      getPages: AppRoute.pages,
+        //
+      );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({
+    super.key,
+    required this.counter,
+    required this.box,
+  });
+
+  final RxInt counter;
+  final GetStorage box;
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(
+      () => Center(
+        child: Column(
+          children: [
+            Text('Counter:${counter.value}'),
+            ElevatedButton(
+              onPressed: (){
+                box.remove('counter.value');
+                   counter.value--;
+              }, child: Icon(Icons.remove),
             ),
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: (){
-            setState(() {
-              box.write('counter', counter.value);
-              counter.value++;
-            });
-           },
-          child: Icon(Icons.add),
+          ],
         ),
       ),
     );
